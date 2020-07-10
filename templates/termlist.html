@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Terms</title>
+</head>
+<body>
+    <h1>List of terms</h1>
+    {% for term in terms %}
+        <p>{{term[0]}}: {{term[1]}}</p>
+    {% endfor %}
+    <a href="//127.0.0.1:5000/" target="_blank">Back</a>
+</body>
+</html>
