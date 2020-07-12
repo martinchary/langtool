@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
-from langtool import json_to_list, add_term
+from langtool import json_to_list, add_term, delete_term
 
 app = Flask(__name__)
 
@@ -30,9 +30,18 @@ def user(usr):
     return f"<h1>{usr}</h1>"
 
 
-@app.route("/list/")
+@app.route("/list/", methods=['POST', 'GET'])
 def termlist():
-    return render_template("termlist.html", terms=json_to_list())
+    if request.method == 'POST':
+        return redirect(url_for("termlist"))
+    else:
+        return render_template("termlist.html", terms=json_to_list())
+
+
+@app.route('/delete/<name>/', methods=['GET'])
+def delete(name):
+    delete_term(name)
+    return redirect(url_for("termlist"))
 
 
 @app.route("/admin/")

@@ -5,17 +5,28 @@ def clear():
     print("\n"*100)
 
 
-def add_term(term, translation):
-    terms = json_import()
-    terms[term] = translation
-    with open('termList.json', 'w') as file:
-        json.dump(terms, file)
-
-
 def json_import():
     with open('termList.json') as f:
         data = json.load(f)
     return data
+
+
+def json_export(dict):
+    with open('termList.json', 'w') as file:
+        json.dump(dict, file)
+
+
+def add_term(term, translation):
+    terms = json_import()
+    terms[term] = translation
+    json_export(terms)
+
+
+def delete_term(term):
+    terms = json_import()
+    if term in terms:
+        del terms[term]
+    json_export(terms)
 
 
 def json_to_list():

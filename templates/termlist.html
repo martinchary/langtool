@@ -7,7 +7,10 @@
 <body>
     <h1>List of terms</h1>
     {% for term in terms %}
-        <p>{{term[0]}}: {{term[1]}}</p>
+        <p>
+            {{term[0]}}: {{term[1]}}
+            <a href={{url_for('delete', name=term[0])}}><input type='button' value='DELETE'></a>
+        </p>
     {% endfor %}
     <a href="//127.0.0.1:5000/">Back</a>
 </body>
