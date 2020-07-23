@@ -1,1 +1,1 @@
-{"capitare": "to happen", "a frotte": "in droves", "anzich\u00c3\u00a9": "instead", "scendere": "to get off", "bambino": "boy", "Anno": "Year"}
+[{"term": "anno", "id": 1, "translations": ["year"], "hits": 1, "misses": 1, "hit_rate": 0.5}, {"term": "ballare", "id": 3, "translations": ["to dance", "dance"], "hits": 1, "misses": 1, "hit_rate": 0.5}, {"term": "ragazzo", "id": 4, "translations": ["boy"], "hits": 2, "misses": 0, "hit_rate": 1.0}, {"term": "suonare", "id": 5, "translations": ["to play", "play"], "hits": 0, "misses": 2, "hit_rate": 0}]

@@ -8,7 +8,7 @@
     <h1>List of terms</h1>
     {% for term in terms %}
         <p>
-            {{term[0]}}: {{term[1]}}
+            {{term[0]}}: {{term[1]}}; hit rate: {{term[2]}}
             <a href={{url_for('delete', name=term[0])}}><input type='button' value='DELETE'></a>
         </p>
     {% endfor %}

@@ -1,4 +1,4 @@
-from langtool import json_to_list, clear
+from langtool import json_to_list, clear, add_term, practice, json_import
 
 
 def menu():
@@ -21,7 +21,7 @@ def menu():
             print("Practice")
 
 
-# practice(json_to_list())
+practice(json_import())
 # print(json_to_list())
 # add_term('sconfitta', 'defeat')
 # menu()
