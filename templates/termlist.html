@@ -6,12 +6,31 @@
 </head>
 <body>
     <h1>List of terms</h1>
-    {% for term in terms %}
-        <p>
-            {{term[0]}}: {{term[1]}}; hit rate: {{term[2]}}
-            <a href={{url_for('delete', name=term[0])}}><input type='button' value='DELETE'></a>
-        </p>
-    {% endfor %}
+
+    <table style ="border-collapse: collapse; border: 1px solid gray; width: 40%; margin: 10px;">
+        <thead>
+            <th>Term</th>
+            <th>Translations</th>
+            <th>Hit rate</th>
+            <th> </th>
+            <th> </th>
+        </thead>
+        <tbody>
+            {% for term in terms %}
+                <tr>
+                    <td >{{term[0]}}</td>
+                    <td>{{term[1]}}</td>
+                    <td style="text-align: center">{{term[2]}}</td>
+                    <td style="text-align: center"><a href={{url_for('edit', name=term[0])}}><input type='button' value='EDIT'></a></td>
+                    <td style="text-align: center"><a href={{url_for('delete', name=term[0])}}><input type='button' value='DELETE'></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    <p></p>
     <a href="//127.0.0.1:5000/">Back</a>
 </body>
 </html>

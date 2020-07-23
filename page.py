@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
-from langtool import json_to_list, add_term, delete_term
+from langtool import json_to_list, add_term, delete_term, edit_term, obtain_translation
 
 app = Flask(__name__)
 
@@ -19,10 +19,20 @@ def addTerm():
         term = request.form['tm']
         trans = request.form['tl']
         add_term(term, trans)
-        # return redirect(url_for("user", usr=term+trans))
         return redirect(url_for("termlist"))
     else:
         return render_template("addTerm.html")
+
+
+@app.route('/edit/<name>/', methods=['POST', 'GET'])
+def edit(name):
+    if request.method == "POST":
+        term = request.form['tm']
+        trans = request.form['tl']
+        edit_term(term, trans)
+        return redirect(url_for("termlist"))
+    else:
+        return render_template("editTerm.html", termdefault=name.replace(' ', '_'), transdefault=obtain_translation(name).replace(' ', '_'))
 
 
 @app.route("/<usr>")

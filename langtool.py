@@ -51,6 +51,30 @@ def add_term(term, translation):
     json_export(terms)
 
 
+def update_translation(item, term, translation):
+    if ',' in translation:
+        translation = translation.split(',')
+        translation = [t.strip() for t in translation]
+    else:
+        translation = [translation]
+    if item["term"] == term:
+        item['translations'] = translation
+    return item
+
+
+def edit_term(term, translation):
+    json_export([update_translation(t, term, translation) for t in json_import()])
+
+
+def obtain_translation(term):
+    translation = ''
+    for t in json_import():
+        if t['term'] == term:
+            translation = "_".join(t['translations'])
+            break
+    return translation
+
+
 def delete_term(term):
     terms = json_import()
     for d in terms:
