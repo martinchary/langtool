@@ -5,14 +5,25 @@ def clear():
     print("\n"*100)
 
 
-def json_import():
+def term_import():
     with open('termList.json') as f:
         data = json.load(f)
     return data
 
 
-def json_export(l):
+def term_export(l):
     with open('termList.json', 'w') as file:
+        json.dump(l, file)
+
+
+def practice_import():
+    with open('practice.json') as f:
+        data = json.load(f)
+    return data
+
+
+def practice_export(l):
+    with open('practice.json', 'w') as file:
         json.dump(l, file)
 
 
@@ -37,7 +48,7 @@ def add_term(term, translation):
         translation = [t.strip() for t in translation]
     else:
         translation = [translation]
-    terms = json_import()
+    terms = term_import()
     new_term = {
         "term": term,
         "id": highest_id(terms) + 1,
@@ -46,9 +57,19 @@ def add_term(term, translation):
         "misses": 0,
         "hit_rate": calculate_hit_ratio(0,0)
     }
-    terms.append(new_term)
+    if not term_exists(term):
+        terms.append(new_term)
     # terms[term] = translation
-    json_export(terms)
+    term_export(terms)
+
+
+def term_exists(myTerm):
+    val = False
+    for term in term_import():
+        if term['term'].lower() == myTerm.lower():
+            val = True
+            break
+    return val
 
 
 def update_translation(item, term, translation):
@@ -63,12 +84,12 @@ def update_translation(item, term, translation):
 
 
 def edit_term(term, translation):
-    json_export([update_translation(t, term, translation) for t in json_import()])
+    term_export([update_translation(t, term, translation) for t in term_import()])
 
 
 def obtain_translation(term):
     translation = ''
-    for t in json_import():
+    for t in term_import():
         if t['term'] == term:
             translation = "_".join(t['translations'])
             break
@@ -76,31 +97,66 @@ def obtain_translation(term):
 
 
 def delete_term(term):
-    terms = json_import()
+    terms = term_import()
     for d in terms:
         if d['term'] == term:
             terms.remove(d)
             break
     # if term in terms:
     #     del terms[term]
-    json_export(terms)
+    term_export(terms)
 
 
 def json_to_list():
     new_list = list()
-    my_list = json_import()
+    my_list = term_import()
     for d in my_list:
         new_list.append([d['term'], ", ".join(d['translations']), d['hit_rate']])
     return new_list
 
 
-def miss(term):
-    term['misses'] = misses + 1
-    term = update_hit_rate(term)
+def miss():
+    practice = practice_import()
+    practice['misses'] += 1
+    practice_export(practice)
+
+
+def reset_practice():
+    practice = practice_import()
+    practice['hits'] = 0
+    practice['misses'] = 0
+    practice['length'] = 6
+    practice['terms'] = ['adesso', 'anno', 'ballare', 'ragazzo', 'suonare', 'aria']
+    practice['results'] = {}
+    practice['answers'] = {}
+    practice_export(practice)
+
+
+def validate(word, answer):
+    practice = practice_import()
+    terms = term_import()
+    for term in terms:
+        if term['term'] == word:
+            translations = term['translations']
+            break
+    if answer.lower() in translations:
+        practice['results'][word] = 'Correct!'
+        practice['hits'] += 1
+    else:
+        practice['results'][term['term']] = 'Wrong! The answer(s) is: ' +  ", ".join(translations)
+        practice['misses'] += 1
+    practice['answers'][word] = answer
+    practice_export(practice)
+
+
+def add_practice(name):
+    practice = practice_import()
+    practice['terms'][name] = 'new'
+    practice_export(practice)
 
 
 def update_hit_rate(term):
-    term['hit_rate'] = calculate_hit_ratio(term['hits'], term['misses'])
+    term['hit_rate'] = round(calculate_hit_ratio(term['hits'], term['misses']), 3)
     return term
 
 
@@ -129,4 +185,4 @@ def practice(terms):
             print("wrong!")
             results[term['term']] = 'miss'
     print("You got " + str(right_answers) + " out of " + str(total_terms) + " questions right!")
-    json_export([update_hit_and_miss(results, t) for t in json_import()])
+    term_export([update_hit_and_miss(results, t) for t in term_import()])
