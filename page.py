@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
-from langtool import json_to_list, add_term,delete_term, edit_term, obtain_translation, practice_import, add_practice, reset_practice, validate
+from langtool import json_to_list, add_term, delete_term, edit_term, obtain_translation, practice_import, add_practice, reset_practice, validate, complete_practice
 
 app = Flask(__name__)
 
@@ -14,12 +14,12 @@ def namepage(name):
 
 
 @app.route("/addTerm/", methods=['POST', 'GET'])
-def addTerm():
+def new_term():
     if request.method == "POST":
         term = request.form['tm']
         trans = request.form['tl']
         add_term(term, trans)
-        return redirect(url_for("termlist"))
+        return redirect(url_for("term_list"))
     else:
         return render_template("addTerm.html")
 
@@ -30,7 +30,7 @@ def edit(name):
         term = request.form['tm']
         trans = request.form['tl']
         edit_term(term, trans)
-        return redirect(url_for("termlist"))
+        return redirect(url_for("term_list"))
     else:
         return render_template("editTerm.html", termdefault=name.replace(' ', '_'), transdefault=obtain_translation(name).replace(' ', '_'))
 
@@ -41,9 +41,9 @@ def user(usr):
 
 
 @app.route("/list/", methods=['POST', 'GET'])
-def termlist():
+def term_list():
     if request.method == 'POST':
-        return redirect(url_for("termlist"))
+        return redirect(url_for("term_list"))
     else:
         return render_template("termlist.html", terms=json_to_list())
 
@@ -66,9 +66,15 @@ def practice():
 
 
 @app.route("/practice/reset/", methods=['GET'])
-def practicereset():
+def practice_reset():
     reset_practice()
     return redirect(url_for("practice"))
+
+
+@app.route("/practice/complete/", methods=['GET'])
+def practice_complete():
+    complete_practice()
+    return redirect(url_for("home"))
 
 
 @app.route('/submit/<name>/', methods=['GET'])
@@ -80,7 +86,7 @@ def submit(name):
 @app.route('/delete/<name>/', methods=['GET'])
 def delete(name):
     delete_term(name)
-    return redirect(url_for("termlist"))
+    return redirect(url_for("term_list"))
 
 
 @app.route("/admin/")

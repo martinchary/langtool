@@ -121,12 +121,21 @@ def miss():
     practice_export(practice)
 
 
+def get_terms():
+    terms = list()
+    for term in term_import():
+        terms.append(term['term'])
+    return terms
+
+
 def reset_practice():
+    #terms = ['adesso', 'anno', 'ballare', 'ragazzo', 'suonare', 'aria']
+    terms = get_terms()
     practice = practice_import()
     practice['hits'] = 0
     practice['misses'] = 0
-    practice['length'] = 6
-    practice['terms'] = ['adesso', 'anno', 'ballare', 'ragazzo', 'suonare', 'aria']
+    practice['length'] = len(terms)
+    practice['terms'] = terms
     practice['results'] = {}
     practice['answers'] = {}
     practice_export(practice)
@@ -162,12 +171,17 @@ def update_hit_rate(term):
 
 def update_hit_and_miss(d, term):
     if term['term'] in d:
-        if d[term['term']] == 'hit':
+        if d[term['term']] == "Correct!":
             term['hits'] += 1
         else:
             term['misses'] += 1
         term = update_hit_rate(term)
     return term
+
+
+def complete_practice():
+    term_export([update_hit_and_miss(practice_import()['results'], t) for t in term_import()])
+    reset_practice()
 
 
 def practice(terms):
@@ -179,7 +193,7 @@ def practice(terms):
         reply = input()
         if reply in term['translations']:
             print("success!")
-            results[term['term']] = 'hit'
+            results[term['term']] = "Correct!"
             right_answers += 1
         else:
             print("wrong!")

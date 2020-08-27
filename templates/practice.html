@@ -20,13 +20,16 @@
                 <input type="submit" value="submit"/>
             </p>
         </form>
+
+        <p></p>
+        <p>Hits: {{hits}}, Misses: {{misses}}</p>
+        <p></p>
+        <a href="//127.0.0.1:5000/">Back</a>
     {% else %}
-        <p>Practice over, complete?</p>
+        <p>Practice over! You scored {{hits}}/{{hits+misses}}</p>
+        <p><a href="//127.0.0.1:5000/practice/complete/">Complete practice</a></p>
     {% endif %}
 
-    <p></p>
-    <p>Hits: {{hits}}, Misses: {{misses}}</p>
-    <p></p>
-    <a href="//127.0.0.1:5000/">Back</a>
+
 </body>
 </html>
