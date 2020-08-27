@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Practice</title>
+</head>
+<body>
+    <h1>Practice settings</h1>
+    <form action="#" method="post">
+        <p>
+            <label>Practice length:</label>
+            <input type="range" id="length" name="length" value ={{totalTerms/2}} min="1" max={{totalTerms}}
+            oninput="document.getElementById('fPrice').innerHTML = this.value">
+            <label id="fPrice"></label>
+        </p>
+        <p>Practice mode:
+            <select name = "mode">
+                <option value = "normal">Normal</option>
+                <option value = "random">Random</option>
+                <option value = "oldest">Oldest</option>
+                <option value = "newest">Newest</option>
+                <option value = "learning">Learning</option>
+                <option value = "brushup">Brush-up</option>
+            </select>
+        </p>
+        <p>Normal: terms that have been practiced less or have been failed repeatedly will be prioritized.</p>
+        <p>Random: terms will be chosen completely randomly.</p>
+        <p>Oldest: older terms appear first.</p>
+        <p>Newest: newer terms appear first.</p>
+        <p>Learning: least practiced terms appear first.</p>
+        <p>Brush-up: terms with lowest hit rate appear first.</p>
+        <input type="submit" value="Begin Practice!"/>
+    </form>
+    <p></p>
+    <a href="//127.0.0.1:5000/">Back</a>
+</body>
+</html>

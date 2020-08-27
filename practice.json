@@ -1,1 +1,1 @@
-{"hits": 2, "misses": 1, "terms": ["anno", "ballare", "ragazzo", "suonare", "collo"], "length": 5, "results": {"anno": "Correct!", "ballare": "Correct!", "ragazzo": "Wrong! The answer(s) is: boy"}, "answers": {"anno": "year", "ballare": "to dance", "ragazzo": "penis"}}
+{"hits": 2, "misses": 1, "terms": ["bambino", "fragola", "anno", "ragazzo", "ballare"], "length": 5, "results": {"bambino": "Correct!", "fragola": "Correct!", "anno": "Wrong! The answer(s) is: year, years"}, "answers": {"bambino": "boy", "fragola": "strawberry", "anno": "penis"}}

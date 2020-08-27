@@ -1,4 +1,5 @@
 import json
+import random
 
 
 def clear():
@@ -24,6 +25,17 @@ def practice_import():
 
 def practice_export(l):
     with open('practice.json', 'w') as file:
+        json.dump(l, file)
+
+
+def settings_import():
+    with open('settings.json') as f:
+        data = json.load(f)
+    return data
+
+
+def settings_export(l):
+    with open('settings.json', 'w') as file:
         json.dump(l, file)
 
 
@@ -111,7 +123,7 @@ def json_to_list():
     new_list = list()
     my_list = term_import()
     for d in my_list:
-        new_list.append([d['term'], ", ".join(d['translations']), d['hit_rate']])
+        new_list.append([d['term'], ", ".join(d['translations']), d['hit_rate'], d['hits']+d['misses']])
     return new_list
 
 
@@ -121,15 +133,59 @@ def miss():
     practice_export(practice)
 
 
+def take_second(elem):
+    return elem[1]
+
+
+def get_highest_count():
+    highest = 0
+    for term in term_import():
+        if term['hits'] + term['misses']>highest:
+            highest = term['hits'] + term['misses']
+    return highest
+
+
+def get_priority(mode, term):
+    hr = term['hit_rate']
+    count = term['hits'] + term['misses']
+    highest = get_highest_count()
+    if mode == 'normal':
+        return 1 / (hr+1) * 1 / (count / highest + 2)
+    elif mode == 'learning':
+        return count
+    elif mode == 'brushup':
+        return hr
+    else:
+        return 1
+
+
 def get_terms():
+    mode = settings_import()['mode']
+    length = int(settings_import()['length'])
     terms = list()
     for term in term_import():
-        terms.append(term['term'])
+        # priority = 1/(term['hit_rate']+1) * 1/((term['hits']+term['misses'])/get_highest_count()+2)
+        terms.append((term['term'], get_priority(mode, term)))
+    if mode == 'random':
+        random.shuffle(terms)
+    elif mode == 'newest':
+        terms.reverse()
+    elif mode == 'normal':
+        terms.sort(key=take_second, reverse=True)
+    elif mode in ['learning', 'brushup']:
+        terms.sort(key=take_second)
+    terms = [term[0] for term in terms]
+    terms = terms[:length]
     return terms
 
 
+def change_settings(param, value):
+    settings = settings_import()
+    settings[param] = value
+    settings_export(settings)
+
+
 def reset_practice():
-    #terms = ['adesso', 'anno', 'ballare', 'ragazzo', 'suonare', 'aria']
     terms = get_terms()
     practice = practice_import()
     practice['hits'] = 0
