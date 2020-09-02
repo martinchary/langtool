@@ -164,13 +164,13 @@ def get_terms():
     length = int(settings_import()['length'])
     terms = list()
     for term in term_import():
-        # priority = 1/(term['hit_rate']+1) * 1/((term['hits']+term['misses'])/get_highest_count()+2)
         terms.append((term['term'], get_priority(mode, term)))
     if mode == 'random':
         random.shuffle(terms)
     elif mode == 'newest':
         terms.reverse()
     elif mode == 'normal':
+        random.shuffle(terms)
         terms.sort(key=take_second, reverse=True)
     elif mode in ['learning', 'brushup']:
         terms.sort(key=take_second)
