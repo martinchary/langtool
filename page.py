@@ -19,7 +19,10 @@ def new_term():
         term = request.form['tm']
         trans = request.form['tl']
         add_term(term, trans)
-        return redirect(url_for("term_list"))
+        if request.form.get('another') == 'yes':
+            return redirect(url_for("new_term"))
+        else:
+            return redirect(url_for("term_list"))
     else:
         return render_template("addTerm.html")
 
