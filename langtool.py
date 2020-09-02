@@ -138,7 +138,7 @@ def take_second(elem):
 
 
 def get_highest_count():
-    highest = 0
+    highest = 1
     for term in term_import():
         if term['hits'] + term['misses']>highest:
             highest = term['hits'] + term['misses']
@@ -208,7 +208,7 @@ def validate(word, answer):
         practice['results'][word] = 'Correct!'
         practice['hits'] += 1
     else:
-        practice['results'][term['term']] = 'Wrong! The answer(s) is: ' +  ", ".join(translations)
+        practice['results'][term['term']] = 'Wrong! The answer(s) is: ' + ", ".join(translations)
         practice['misses'] += 1
     practice['answers'][word] = answer
     practice_export(practice)
