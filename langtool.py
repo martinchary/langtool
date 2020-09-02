@@ -119,11 +119,35 @@ def delete_term(term):
     term_export(terms)
 
 
-def json_to_list():
+def take_hit_rate(elem):
+    return elem[2]
+
+
+def take_times(elem):
+    return elem[3]
+
+
+def take_term(elem):
+    return elem[0]
+
+
+def json_to_list(order='none'):
     new_list = list()
     my_list = term_import()
+    reverse = False
+    if '_' in order:
+        order, reverse = order.split('_')
+        reverse = (False if reverse == 'U' else True)
     for d in my_list:
         new_list.append([d['term'], ", ".join(d['translations']), d['hit_rate'], d['hits']+d['misses']])
+    if order == 'HR':
+        new_list.sort(key=take_hit_rate, reverse=reverse)
+    elif order == 'times':
+        new_list.sort(key=take_times, reverse=reverse)
+    elif order == 'term':
+        new_list.sort(key=take_term, reverse=reverse)
+    elif reverse:
+        new_list.reverse()
     return new_list
 
 
@@ -173,6 +197,7 @@ def get_terms():
         random.shuffle(terms)
         terms.sort(key=take_second, reverse=True)
     elif mode in ['learning', 'brushup']:
+        random.shuffle(terms)
         terms.sort(key=take_second)
     terms = [term[0] for term in terms]
     terms = terms[:length]

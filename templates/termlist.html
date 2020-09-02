@@ -5,20 +5,44 @@
     <title>List of Terms</title>
 </head>
 <body>
-    <h1>List of terms</h1>
+    <p>
+        <a href="//127.0.0.1:5000/">Back</a>
+        <h1 style="text-align: center">List of terms</h1>
+    </p>
 
-    <table style ="border-collapse: collapse; border: 1px solid gray; width: 40%; margin: 10px;">
+    <table style ="border-collapse: collapse; border: 1px solid gray; width: 40%; margin: 10px; margin-left: auto; margin-right: auto;">
         <thead style="background-color: #235CB8; color: white; min-height: 50px">
-            <th style="min-width: 150px">Term</th>
+            <th style="min-width: 150px">
+                Term
+                <br />
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/term_U/">▲</a>
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/term_D/">▼</a>
+            </th>
             <th style="min-width: 200px">Translations</th>
-            <th style="min-width: 100px">Hit rate</th>
-            <th style="min-width: 100px">Times played</th>
+            <th style="min-width: 60px">
+                Hit rate
+                <br />
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/HR_U/">▲</a>
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/HR_D/">▼</a>
+            </th>
+            <th style="min-width: 100px">
+                Times played
+                <br />
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/times_U/">▲</a>
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/times_D/">▼</a>
+            </th>
             <th style="min-width: 60px"> </th>
-            <th style="min-width: 80px"> </th>
+            <th style="min-width: 80px">
+                Order
+                <br />
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/none_U/">▲</a>
+                <a style="color: white; text-decoration: none" href="//127.0.0.1:5000/list/none_D/">▼</a>
+            </th>
+
         </thead>
         <tbody>
             {% for term in terms %}
-                <tr>
+                <tr style="border-bottom: 1px solid #ddd">
                     <td >{{term[0]}}</td>
                     <td>{{term[1]}}</td>
                     <td style="text-align: center">{{term[2]}}</td>

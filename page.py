@@ -33,7 +33,7 @@ def edit(name):
         term = request.form['tm']
         trans = request.form['tl']
         edit_term(term, trans)
-        return redirect(url_for("term_list"))
+        return redirect(url_for("term_list", order='none'))
     else:
         return render_template("editTerm.html", termdefault=name.replace(' ', '_'), transdefault=obtain_translation(name).replace(' ', '_'))
 
@@ -43,12 +43,12 @@ def user(usr):
     return f"<h1>{usr}</h1>"
 
 
-@app.route("/list/", methods=['POST', 'GET'])
-def term_list():
+@app.route("/list/<order>/", methods=['POST', 'GET'])
+def term_list(order):
     if request.method == 'POST':
-        return redirect(url_for("term_list"))
+        redirect(url_for("term_list", order=order))
     else:
-        return render_template("termlist.html", terms=json_to_list())
+        return render_template("termlist.html", terms=json_to_list(order))
 
 
 @app.route("/practice/settings/", methods=['POST', 'GET'])
@@ -102,7 +102,7 @@ def submit(name):
 @app.route('/delete/<name>/', methods=['GET'])
 def delete(name):
     delete_term(name)
-    return redirect(url_for("term_list"))
+    return redirect(url_for("term_list", order='none'))
 
 
 @app.route("/admin/")
