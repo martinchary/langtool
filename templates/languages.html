@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Languages</title>
+</head>
+<body>
+    <h1 style="text-align: center">Manage Languages</h1>
+    <form action="#" method="post">
+        <p>
+            Current language: {{current}}
+        </p>
+        <p>Select language:
+            <select name = "lang">
+                    {% for language in languages %}
+                        <option value = {{language}}>{{language}}</option>
+                    {% endfor %}
+            </select>
+        </p>
+        <p>New Language:</p>
+        <p><input type="text" name="new" value=""/></p>
+        <input  type="submit" value="Change language"/>
+    </form>
+    <p>
+       <a href="//127.0.0.1:5000/">Back</a>
+    </p>
+</body>
+</html>

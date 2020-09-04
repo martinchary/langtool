@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
-from langtool import json_to_list, add_term, delete_term, edit_term, obtain_translation, practice_import, add_practice, reset_practice, validate, complete_practice, settings_import, change_settings
+from langtool import json_to_list, add_term, delete_term, edit_term, obtain_translation, practice_import, add_practice, reset_practice, validate, complete_practice, settings_import, change_settings, add_language
 
 app = Flask(__name__)
 
@@ -30,9 +30,7 @@ def new_term():
 @app.route('/edit/<name>/', methods=['POST', 'GET'])
 def edit(name):
     if request.method == "POST":
-        term = request.form['tm']
-        trans = request.form['tl']
-        edit_term(term, trans)
+
         return redirect(url_for("term_list", order='none'))
     else:
         return render_template("editTerm.html", termdefault=name.replace(' ', '_'), transdefault=obtain_translation(name).replace(' ', '_'))
@@ -105,9 +103,20 @@ def delete(name):
     return redirect(url_for("term_list", order='none'))
 
 
-@app.route("/admin/")
-def admin():
-    return redirect(url_for("namepage", name="Admin!"))
+@app.route("/languages/", methods=['GET', 'POST'])
+def languages():
+    if request.method == 'POST':
+        new_language = request.form['new']
+        language = request.form['lang']
+        if new_language != '' and new_language not in settings_import()['languages']:
+            add_language(new_language)
+        else:
+            change_settings('language', language)
+        return redirect(url_for("home"))
+    else:
+        return render_template("languages.html",
+                               languages=settings_import()['languages'],
+                               current=settings_import()['language'])
 
 
 if __name__ == '__main__':

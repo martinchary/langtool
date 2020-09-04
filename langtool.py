@@ -1,41 +1,45 @@
 import json
 import random
 
+terms_route = 'dictionaries/'
+practice_route = 'practice.json'
+settings_route = 'settings.json'
+
 
 def clear():
     print("\n"*100)
 
 
 def term_import():
-    with open('termList.json') as f:
+    with open(terms_route + settings_import()['language'] + '.json') as f:
         data = json.load(f)
     return data
 
 
 def term_export(l):
-    with open('termList.json', 'w') as file:
+    with open(terms_route + settings_import()['language'] + '.json', 'w') as file:
         json.dump(l, file)
 
 
 def practice_import():
-    with open('practice.json') as f:
+    with open(practice_route) as f:
         data = json.load(f)
     return data
 
 
 def practice_export(l):
-    with open('practice.json', 'w') as file:
+    with open(practice_route, 'w') as file:
         json.dump(l, file)
 
 
 def settings_import():
-    with open('settings.json') as f:
+    with open(settings_route) as f:
         data = json.load(f)
     return data
 
 
 def settings_export(l):
-    with open('settings.json', 'w') as file:
+    with open(settings_route, 'w') as file:
         json.dump(l, file)
 
 
@@ -237,6 +241,15 @@ def validate(word, answer):
         practice['misses'] += 1
     practice['answers'][word] = answer
     practice_export(practice)
+
+
+def add_language(language):
+    settings = settings_import()
+    settings['languages'].append(language)
+    settings['language'] = language
+    with open(terms_route + language + '.json', 'w') as file:
+        json.dump([], file)
+    settings_export(settings)
 
 
 def add_practice(name):
